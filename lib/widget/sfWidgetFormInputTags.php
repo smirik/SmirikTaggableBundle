@@ -26,7 +26,7 @@ class sfWidgetFormInputTags extends sfWidgetFormInput
 
         if (!$taggable->isNew()) {
             $tags = $taggable->getTags();
-            $html .= '<ul class="checkbox_list" id="sfPropel15TaggablePlugin">';
+            $html .= '<ul class="checkbox_list" id="sfPropelORMTaggablePlugin">';
             foreach ($tags as $i => $tag) {
                 $html .= '<li>';
                 $html .= '<a href="javascript:void(0)" class="tag-delete" id="'.$tag->getId().'">'.$tag.'</a>';
@@ -109,17 +109,17 @@ class sfWidgetFormInputTags extends sfWidgetFormInput
     public function getJavaScripts()
     {
         return array(
-            '/sfPropel15TaggableBehaviorPlugin/js/jquery-1.5.min.js',
-            '/sfPropel15TaggableBehaviorPlugin/js/jquery-ui-1.8.9.custom.min.js',
-            '/sfPropel15TaggableBehaviorPlugin/js/sfPropel15TaggableBehaviorPlugin'
+            '/sfPropelORMTaggableBehaviorPlugin/js/jquery-1.5.min.js',
+            '/sfPropelORMTaggableBehaviorPlugin/js/jquery-ui-1.8.9.custom.min.js',
+            '/sfPropelORMTaggableBehaviorPlugin/js/sfPropelORMTaggableBehaviorPlugin'
         );
     }
 
     public function  getStylesheets()
     {
         return array(
-            '/sfPropel15TaggableBehaviorPlugin/css/smoothness/jquery-ui-1.8.9.custom.css' => 'screen',
-            '/sfPropel15TaggableBehaviorPlugin/css/sfPropel15TaggableBehaviorPlugin.css' => 'screen'
+            '/sfPropelORMTaggableBehaviorPlugin/css/smoothness/jquery-ui-1.8.9.custom.css' => 'screen',
+            '/sfPropelORMTaggableBehaviorPlugin/css/sfPropelORMTaggableBehaviorPlugin.css' => 'screen'
         );
     }
 }

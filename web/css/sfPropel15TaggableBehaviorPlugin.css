@@ -11,11 +11,11 @@ ul.ui-autocomplete li {
 }
 
 .ui-autocomplete-loading { 
-    background: white url('/sfPropel15TaggableBehaviorPlugin/images/ui-anim_basic_16x16.gif') right center no-repeat;
+    background: white url('/sfPropelORMTaggableBehaviorPlugin/images/ui-anim_basic_16x16.gif') right center no-repeat;
 }
 
 a.tag-delete {
-    background: url('/sfPropel15TaggableBehaviorPlugin/images/delete.png') no-repeat left !important;
+    background: url('/sfPropelORMTaggableBehaviorPlugin/images/delete.png') no-repeat left !important;
     margin-right: 1em;
     color: #333;
     outline: none;
@@ -27,6 +27,6 @@ a.tag-delete:hover {
     text-decoration: none !important;
 }
 
-ul#sfPropel15TaggablePlugin {
+ul#sfPropelORMTaggablePlugin {
     margin: .5em 0 .7em !important;
 }
