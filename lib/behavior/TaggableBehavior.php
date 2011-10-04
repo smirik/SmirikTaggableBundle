@@ -20,12 +20,6 @@ class TaggableBehavior extends Behavior {
         $queryBuilderModifier,
         $peerBuilderModifier;
 
-
-    public function modifyDatabase()
-    {
-        die('mod db');
-    }
-
     public function modifyTable()
     {
         $this->createTagTable();
