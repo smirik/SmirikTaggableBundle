@@ -161,9 +161,3 @@ both of them accept the taggable object as a parameter
 Now your form has a widget with jquery autocomplete that read from the tag table. And a list of tags associated with a delete button and a nice fadeout effect.
 The tags are saved server side (when you hit "save" on your form). The tag deletion are made via ajax and the sfTagHub module. No "save" needed.
 
-TODO
-----
-
-- check compatibility with propel 1.5.x, I'm testing this on propel 1.6.0 and symfony 1.4.8.
-- check the autogeneration of removeXXX() by propel in many-to-many relations
-
