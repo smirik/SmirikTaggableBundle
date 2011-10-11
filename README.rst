@@ -1,6 +1,6 @@
---------------------------------
-sfPropel15TaggableBehaviorPlugin
---------------------------------
+---------------------------------
+sfPropelORMTaggableBehaviorPlugin
+---------------------------------
 
 A behavior and a widget for symfony 1.x and propel 1.6
 
