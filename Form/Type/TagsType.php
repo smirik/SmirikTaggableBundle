@@ -24,19 +24,30 @@ class TagsType extends AbstractType {
 	
 	public function getDefaultOptions(array $options)
 	{
-		return array();
+		return array(
+			'autocomplete_url' => null,
+			'autocomplete' => array(),
+			'height' => '100px',
+			'width' => '300px',
+			'interactive' => true,
+			'defaultText' => 'add a tag',
+			'removeWithBackspace' => true,
+			'minChars' => 0,
+			'maxChars' => 255, //if not provided there is no limit,
+			'placeholderColor' => '#666666'
+		);
 	}
 	
 	public function buildForm(FormBuilder $builder, array $options)
 	{
 		parent::buildForm($builder, $options);
-		 
-		//$builder->setAttribute('tinymce-config', $conf);
+		
+		$builder->setAttribute('tags-config', array_intersect_key($options, $this->getDefaultOptions(array())));
 		$builder->prependClientTransformer(new TagTransformer());
 	}
 	
-/*	public function buildView(FormView $view, FormInterface $form)
+	public function buildView(FormView $view, FormInterface $form)
 	{
-		//$view->set('config', $form->getAttribute('tinymce-config'));
-	}*/
+		$view->set('config', $form->getAttribute('tags-config'));
+	}
 }
