@@ -1,8 +1,8 @@
 ---------------------------------
-sfPropelORMTaggableBehaviorPlugin
+Propel\TaggableBehaviorBundle
 ---------------------------------
 
-A behavior and a widget for symfony 1.x and propel 1.6
+A behavior and a widget for symfony 2.x and propel 1.6
 
 
 
@@ -11,27 +11,26 @@ How to install
 
 - add this plugin as a git submodule in your project. From your project root:
 
-    git submodule add git://github.com/matteosister/sfPropel15TaggableBehaviorPlugin.git plugins/sfPropel15TaggableBehaviorPlugin
+    git submodule add git://github.com/glorpen/TaggableBehaviorPlugin.git Propel/TaggableBehaviorBundle
 
-- enable the plugin in your **ProjectConfiguration** class
+- enable the plugin in your **AppKernel** class
 
-*config/ProjectConfiguration.class.php*
+*app/AppKernel.php*
 
 ::
 
     <?php
 
-    require_once dirname(__FILE__) . '/../lib/vendor/symfony/autoload/sfCoreAutoload.class.php';
-    sfCoreAutoload::register();
-
-    class ProjectConfiguration extends sfProjectConfiguration
+    class AppKernel extends AppKernel
     {
-      public function setup()
-      {
-        // ...
-        $this->enablePlugins('sfPropel15TaggableBehaviorPlugin');
-        // ...
-      }
+        public function registerBundles()
+        {
+            $bundles = array(
+            	...
+            	new Propel\TaggableBehaviorBundle\TaggableBehaviorBundle(),
+            	...
+            );
+        }
     }
 
 - add the **taggable** behavior to a class in your schema file
@@ -51,7 +50,7 @@ How to install
 
 ::
 
-    php symfony propel:build-all
+    app/console propel:build-all
 
 - publish assets
 
@@ -111,53 +110,3 @@ Some examples:
     $tag = TagQuery::create()->findOneByName('symfony');
     $articles = ArticleQuery::create()->filterByTag($tag)->find();
     
-
-
-Tag widget!
------------
-
-This plugin creates a tagging table with crossref attribute, that has one fk on the object table and one on the tag table.
-When this "many-to-many" relations occur, Propel admin generator comes out of the box with a nice multiple select to tag your objects.
-But if you want something more interactive there is a nice jquery powered widget.
-
-- Enable the sfTagHub module in your settings.yml file (for jquery requests):
-
-*app/backend/config/settings.yml*
-
-::
-
-    all:
-      .settings:
-      # ...
-      enabled_modules:        [..., sfTagHub]
-
-
-
-- Create a tag field with **sfWidgetFormInputTags** widget in your form class, and don't forget the validator
-both of them accept the taggable object as a parameter
-
-*lib/form/ArticleForm.class.php*
-
-::
-
-    class ArticleForm extends BaseArticleForm
-    {
-      public function configure()
-      {
-          // this is mandatory. Or the default multiple select widget will override the tags widget
-          unset($this['article_tagging_list']); // change "article" with your propel table name.
-          // ....
-          $this->setWidget('tags', new sfWidgetFormInputTags(array('taggable' => $this->getObject())));
-          $this->setValidator('tags', new sfValidatorTags(array('taggable' => $this->getObject())));
-      }
-    }
-
-- clear your cache
-
-::
-
-    php symfony cc
-
-Now your form has a widget with jquery autocomplete that read from the tag table. And a list of tags associated with a delete button and a nice fadeout effect.
-The tags are saved server side (when you hit "save" on your form). The tag deletion are made via ajax and the sfTagHub module. No "save" needed.
-

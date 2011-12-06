@@ -41,7 +41,7 @@ class TaggableBehavior extends Behavior {
                 'phpName'   => $tagTablePhpName,
                 'package'   => $table->getPackage(),
                 'schema'    => $table->getSchema(),
-                'namespace' => $table->getNamespace(),
+                'namespace' => 'Propel\TaggableBehaviorBundle\Model',
             ));
             // every behavior adding a table should re-execute database behaviors
             // see bug 2188 http://www.propelorm.org/changeset/2188
