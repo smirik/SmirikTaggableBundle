@@ -1,3 +1,6 @@
 propel:
   build_properties:
     propel.behavior.taggable.class: "%kernel.project_dir%.src.Propel.TaggableBehaviorBundle.Lib.Behavior.TaggableBehavior"
+twig:
+    form:
+        resources: [ 'TaggableBehaviorBundle:Form:fields.html.twig' ]

@@ -293,6 +293,22 @@ public function filterByTagName(\$tagName)
             '%PHPNAME%' => $table->getPhpName(),
         ));
     }
+    
+    
+    public function objectFilter(&$script)
+    {
+    	$s = <<<EOF
+
+    	if(is_string(\$tags)){
+    		\$this->removeAllTags(\$con);
+    		\$this->clearTags();
+    		\$this->addTags(\$tags, \$con);
+    		return;
+    	}
+
+EOF;
+    	$script = preg_replace('/(public function setTags\()PropelCollection ([^{]*{)/', '$1$2'.$s, $script, 1);
+    }
 
 }
 

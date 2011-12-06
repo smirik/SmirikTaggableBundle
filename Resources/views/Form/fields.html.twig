@@ -1,0 +1,10 @@
+{% block tags_widget %}
+{% spaceless %}
+    <input {{ block('widget_attributes') }} value="{{ value }}" />
+	<script type="text/javascript">
+		$(function() {
+			$('#{{ id }}').tagsInput();
+		});
+	</script>
+{% endspaceless %}
+{% endblock tags_widget %}
