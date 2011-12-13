@@ -299,6 +299,11 @@ public function filterByTagName(\$tagName)
     {
     	$s = <<<EOF
 
+    	if(empty(\$tags)){
+    		\$this->removeAllTags(\$con);
+    		return;
+    	}
+    	
     	if(is_string(\$tags)){
     		\$tagNames = explode(',',\$tags);
     		

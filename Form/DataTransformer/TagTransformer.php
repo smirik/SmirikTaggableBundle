@@ -1,8 +1,6 @@
 <?php
 namespace Propel\TaggableBehaviorBundle\Form\DataTransformer;
 
-use Propel\Model\TaggableBehaviorBundle\Model\TagQuery;
-
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 use Symfony\Component\Form\DataTransformerInterface;
@@ -27,7 +25,7 @@ class TagTransformer implements DataTransformerInterface {
 	}
 
     public function reverseTransform($tags){
-    	if(empty($tags)) return null;
+    	if(empty($tags)) return array();
     	return $tags;
     }
 
