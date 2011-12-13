@@ -110,3 +110,34 @@ Some examples:
     $tag = TagQuery::create()->findOneByName('symfony');
     $articles = ArticleQuery::create()->filterByTag($tag)->find();
     
+
+As widget in forms
+
+::
+
+	<?php
+	namespace SofthisCMS\CmsGalleryBundle\Form\Type;
+	
+	use Symfony\Component\Form\AbstractType;
+	use Symfony\Component\Form\FormBuilder;
+	
+	class GalleryType extends AbstractType
+	{
+		public function getDefaultOptions(array $options)
+		{
+			return array(
+				'data_class' => 'Propel\Model\CmsGalleryBundle\Model\Gallery',
+			);
+		}
+	
+		public function buildForm(FormBuilder $builder, array $options)
+		{
+			$builder->add('title', 'text', array('label'=>'Tytuł'));
+			$builder->add('tags', 'tags', array('label' => 'Tagi', 'defaultText'=>'add tag'));
+		}
+	
+		public function getName(){
+			return 'gallery';
+		}
+	
+	}

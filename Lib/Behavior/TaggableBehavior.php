@@ -304,7 +304,7 @@ public function filterByTagName(\$tagName)
     		
     		\$tags = TagQuery::create()
     		->filterByName(\$tagNames)
-    		->find();
+    		->find(\$con);
     		
     		\$existingTags = array();
     		foreach(\$tags as \$t) \$existingTags[] = \$t->getName();
