@@ -300,10 +300,19 @@ public function filterByTagName(\$tagName)
     	$s = <<<EOF
 
     	if(is_string(\$tags)){
-    		\$this->removeAllTags(\$con);
-    		\$this->clearTags();
-    		\$this->addTags(\$tags, \$con);
-    		return;
+    		\$tagNames = explode(',',\$tags);
+    		
+    		\$tags = TagQuery::create()
+    		->filterByName(\$tagNames)
+    		->find();
+    		
+    		\$existingTags = array();
+    		foreach(\$tags as \$t) \$existingTags[] = \$t->getName();
+    		foreach(array_diff(\$tagNames, \$existingTags) as \$t){
+    			\$tag=new Tag();
+    			\$tag->setName(\$t);
+				\$tags->append(\$tag);
+    		}
     	}
 
 EOF;
