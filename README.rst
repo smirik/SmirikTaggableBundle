@@ -11,7 +11,7 @@ How to install
 
 - add this plugin as a git submodule in your project. From your project root:
 
-    git submodule add git://github.com/glorpen/TaggableBehaviorPlugin.git Propel/TaggableBehaviorBundle
+    git submodule add git@bitbucket.org:glorpen/taggablebehaviorbundle.git Propel/TaggableBehaviorBundle
 
 - enable the plugin in your **AppKernel** class
 
@@ -116,7 +116,7 @@ As widget in forms
 ::
 
 	<?php
-	namespace SofthisCMS\CmsGalleryBundle\Form\Type;
+	namespace Glorpen\GalleryBundle\Form\Type;
 	
 	use Symfony\Component\Form\AbstractType;
 	use Symfony\Component\Form\FormBuilder;
@@ -126,14 +126,14 @@ As widget in forms
 		public function getDefaultOptions(array $options)
 		{
 			return array(
-				'data_class' => 'Propel\Model\CmsGalleryBundle\Model\Gallery',
+				'data_class' => 'Glorpen\GalleryBundle\Model\Gallery',
 			);
 		}
 	
 		public function buildForm(FormBuilder $builder, array $options)
 		{
-			$builder->add('title', 'text', array('label'=>'Tytuł'));
-			$builder->add('tags', 'tags', array('label' => 'Tagi', 'defaultText'=>'add tag'));
+			$builder->add('title', 'text', array('label'=>'Title'));
+			$builder->add('tags', 'tags', array('label' => 'Tags', 'defaultText'=>'add tag'));
 		}
 	
 		public function getName(){
