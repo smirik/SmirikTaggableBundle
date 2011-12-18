@@ -11,7 +11,7 @@ How to install
 
 - add this plugin as a git submodule in your project. From your project root:
 
-    git submodule add git@bitbucket.org:glorpen/taggablebehaviorbundle.git Propel/TaggableBehaviorBundle
+    git submodule add https://bitbucket.org/glorpen/taggablebehaviorbundle.git Propel/TaggableBehaviorBundle
 
 - enable the plugin in your **AppKernel** class
 
