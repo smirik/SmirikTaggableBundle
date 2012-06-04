@@ -13,12 +13,16 @@ class TagTransformer implements DataTransformerInterface {
 
 	private $found_class = null;
 	
+	public function __construct($cls) {
+		$this->found_class = $cls;
+	}
+	
 	public function transform($tags)
 	{
 		if(empty($tags)) return null;
 		
 		$ret=array();
-		if($tags instanceof \PropelCollection){
+		if($tags instanceof \PropelCollection && is_null($this->found_class)){
 			$this->found_class = $tags->getModel();
 		}
 		if($tags instanceof \PropelCollection || is_array($tags))
