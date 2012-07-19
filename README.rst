@@ -11,7 +11,7 @@ How to install
 
 - add this plugin as a git submodule in your project. From your project root:
 
-    git submodule add https://bitbucket.org/glorpen/taggablebehaviorbundle.git Propel/TaggableBehaviorBundle
+    git submodule add https://github.com/vbardales/MultipleAppKernelBundle.git
 
 - enable the plugin in your **AppKernel** class
 
@@ -27,7 +27,7 @@ How to install
         {
             $bundles = array(
             	...
-            	new Propel\TaggableBehaviorBundle\TaggableBehaviorBundle(),
+            	new Propel\TaggableBehaviorBundle\PropelTaggableBehaviorBundle(),
             	...
             );
         }
