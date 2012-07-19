@@ -1,6 +1,6 @@
 propel:
   build_properties:
-    propel.behavior.taggable.class: vendor.bundles.Propel.TaggableBehaviorBundle.Lib.Behavior.TaggableBehavior
+    propel.behavior.taggable.class: vendor.vbardales.propel-taggable-behavior-bundle.Propel.TaggableBehaviorBundle.Lib.Behavior.TaggableBehavior
 twig:
     form:
         resources: [ 'TaggableBehaviorBundle:Form:fields.html.twig' ]
