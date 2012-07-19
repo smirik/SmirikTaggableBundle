@@ -5,14 +5,14 @@ use Propel\TaggableBehaviorBundle\Form\DataTransformer\TagTransformer;
 
 use Symfony\Component\Form\FormInterface;
 
-use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\FormViewInterface ;
 
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 use Symfony\Component\Form\AbstractType;
 
 class TagsType extends AbstractType {
-	public function getParent(array $options)
+	public function getParent()
 	{
 		return 'text';
 	}
@@ -22,7 +22,7 @@ class TagsType extends AbstractType {
 		return 'tags';
 	}
 	
-	public function getDefaultOptions(array $options)
+	public function getDefaultOptions()
 	{
 		return array(
 			'autocomplete_url' => null,
@@ -39,7 +39,7 @@ class TagsType extends AbstractType {
 		);
 	}
 	
-	public function buildForm(FormBuilder $builder, array $options)
+	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		parent::buildForm($builder, $options);
 		
@@ -47,7 +47,7 @@ class TagsType extends AbstractType {
 		$builder->prependClientTransformer(new TagTransformer($options['class']));
 	}
 	
-	public function buildView(FormView $view, FormInterface $form)
+	public function buildView(FormViewInterface  $view, FormInterface $form, array $options)
 	{
 		$view->set('config', $form->getAttribute('tags-config'));
 	}
