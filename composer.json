@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "symfony/symfony": "2.0"
+        "symfony/symfony": "2.1"
     },
     "target-dir": "Propel/TaggableBehaviorBundle",
     "autoload": {
