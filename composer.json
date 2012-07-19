@@ -1,0 +1,31 @@
+{
+    "name": "vbardales/propel-taggable-behaviour-bundle",
+    "description": "A behavior and a widget for symfony 2.x and propel 1.6",
+    "keywords": ["propel", "behavior", "taggable"],
+    "type": "symfony-bundle",
+    "homepage": "https://github.com/vbardales/MultipleAppKernelBundle",
+    "authors": [
+        {
+            "name": "Arkadiusz Dzięgiel (glorpen)",
+            "homepage": "http://glorpen.pl/"
+        },
+        {
+            "name": "Matteo Giachino (matteosister)",
+        },
+        {
+            "name": "Virginie BARDALES (vbardales)",
+            "email": "virginie.bardales@gmail.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "http://github.com/vbardales/MultipleAppKernelBundle/contributors"
+        }
+    ],
+    "require": {
+        "symfony/symfony": "2.0"
+    },
+    "target-dir": "Propel/TaggableBehaviorBundle",
+    "autoload": {
+        "psr-0": { "Propel\\TaggableBehaviorBundle": "" }
+    }
+}
