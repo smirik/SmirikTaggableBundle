@@ -10,8 +10,13 @@ class TaggableBehavior extends Behavior
     protected $parameters = array(
         'tagging_table' => '%TABLE%_tagging',
         'tagging_table_phpname' => '%PHPNAME%Tagging',
+        'tagging_table_tag_id' => 'tag_id',
+        'tagging_table_taggable_id' => '%TABLE%_id',
         'tag_table' => 'taggable_tag',
         'tag_table_phpname' => 'Tag',
+        'tag_table_id' => 'id',
+        'tag_table_tag_name' => 'name',
+        'upperCase' => false,
     );
 
     protected $taggingTable,
@@ -30,15 +35,15 @@ class TaggableBehavior extends Behavior
     {
         $table = $this->getTable();
         $database = $table->getDatabase();
-        $tagTableName = $this->getTagTableName();
-        $tagTablePhpName = $this->replaceTokens($this->parameters['tag_table_phpname']);
+
+        $tagTableName = $this->get('tag_table');
 
         if ($database->hasTable($tagTableName)) {
             $this->tagTable = $database->getTable($tagTableName);
         } else {
             $this->tagTable = $database->addTable(array(
                 'name'      => $tagTableName,
-                'phpName'   => $tagTablePhpName,
+                'phpName'   => $this->get('tag_table_phpname'),
                 'package'   => $table->getPackage(),
                 'schema'    => $table->getSchema(),
                 'namespace' => '\\'.$table->getNamespace(),
@@ -51,43 +56,46 @@ class TaggableBehavior extends Behavior
             }
         }
 
-        if (!$this->tagTable->hasColumn('id')) {
+        $tagTableIdColumn = $this->get('tag_table_id');
+        if (!$this->tagTable->hasColumn($tagTableIdColumn)) {
             $this->tagTable->addColumn(array(
-                'name'          => 'id',
+                'name'          => $tagTableIdColumn,
                 'type'          => PropelTypes::INTEGER,
                 'primaryKey'    => 'true',
                 'autoIncrement' => 'true',
             ));
         }
 
-        if (!$this->tagTable->hasColumn('name')) {
+        $tagTableNameColumn = $this->get('tag_table_tag_name');
+        if (!$this->tagTable->hasColumn($tagTableNameColumn)) {
             $this->tagTable->addColumn(array(
-                'name'          => 'name',
+                'name'          => $tagTableNameColumn,
                 'type'          => PropelTypes::VARCHAR,
                 'size'          => '60',
                 'primaryString' => 'true'
             ));
         }
-        var_dump($tagTableName);
-        var_dump('ok');
     }
 
     protected function createTaggingTable()
     {
         $table = $this->getTable();
         $database = $table->getDatabase();
+
         $pks = $this->getTable()->getPrimaryKey();
         if (count($pks) > 1) {
             throw new EngineException('The Taggable behavior does not support tables with composite primary keys');
         }
-        $taggingTableName = $this->getTaggingTableName();
+        $pk = array_shift($pks);
+
+        $taggingTableName = $this->get('tagging_table');
 
         if ($database->hasTable($taggingTableName)) {
             $this->taggingTable = $database->getTable($taggingTableName);
         } else {
             $this->taggingTable = $database->addTable(array(
                 'name'      => $taggingTableName,
-                'phpName'   => $this->replaceTokens($this->parameters['tagging_table_phpname']),
+                'phpName'   => $this->get('tagging_table_phpname'),
                 'package'   => $table->getPackage(),
                 'schema'    => $table->getSchema(),
                 'namespace' => '\\'.$table->getNamespace(),
@@ -100,23 +108,23 @@ class TaggableBehavior extends Behavior
             }
         }
 
-        $objFkColumn;
-        if ($this->taggingTable->hasColumn($table->getName().'_id')) {
-            $objFkColumn = $this->taggingTable->getColumn($table->getName().'_id');
+        $taggingTableTaggingId = $this->get('tagging_table_taggable_id');
+        if ($this->taggingTable->hasColumn($taggingTableTaggingId)) {
+            $objFkColumn = $this->taggingTable->getColumn($taggingTableTaggingId);
         } else {
             $objFkColumn = $this->taggingTable->addColumn(array(
-                'name'          => $table->getName().'_id',
+                'name'          => $taggingTableTaggingId,
                 'type'          => PropelTypes::INTEGER,
                 'primaryKey'    => 'true'
             ));
         }
 
-        $tagFkColumn;
-        if ($this->taggingTable->hasColumn('tag_id')) {
-            $tagFkColumn = $this->taggingTable->getColumn('tag_id');
+        $taggingTableTagId = $this->get('tagging_table_tag_id');
+        if ($this->taggingTable->hasColumn($taggingTableTagId)) {
+            $tagFkColumn = $this->taggingTable->getColumn($taggingTableTagId);
         } else {
             $tagFkColumn = $this->taggingTable->addColumn(array(
-                'name'          => 'tag_id',
+                'name'          => $taggingTableTagId,
                 'type'          => PropelTypes::INTEGER,
                 'primaryKey'    => 'true'
             ));
@@ -124,28 +132,23 @@ class TaggableBehavior extends Behavior
 
         $this->taggingTable->setIsCrossRef(true);
 
-        // Add FK between taggingTable and tagTable
-        $fkTag = new ForeignKey();
-        $fkTag->setForeignTableCommonName($this->tagTable->getCommonName());
-        $fkTag->setForeignSchemaName($this->tagTable->getSchema());
-        $fkTag->setOnDelete(ForeignKey::CASCADE);
-        $fkTag->setOnUpdate(ForeignKey::CASCADE);
-        $fkTag->addReference($tagFkColumn->getName(), 'id');
-        $this->taggingTable->addForeignKey($fkTag);
-
         // Add FK between table and taggingTable
         $fkObj = new ForeignKey();
         $fkObj->setForeignTableCommonName($this->getTable()->getCommonName());
         $fkObj->setForeignSchemaName($this->getTable()->getSchema());
         $fkObj->setOnDelete(ForeignKey::CASCADE);
         $fkObj->setOnUpdate(ForeignKey::CASCADE);
-
-        foreach ($pks as $column) {
-            $fkObj->addReference($objFkColumn->getName(), $column->getName());
-        }
+        $fkObj->addReference($objFkColumn->getName(), $pk->getName());
         $this->taggingTable->addForeignKey($fkObj);
-        var_dump($taggingTableName);
-        var_dump('ok');
+
+        // Add FK between taggingTable and tagTable
+        $fkTag = new ForeignKey();
+        $fkTag->setForeignTableCommonName($this->tagTable->getCommonName());
+        $fkTag->setForeignSchemaName($this->tagTable->getSchema());
+        $fkTag->setOnDelete(ForeignKey::CASCADE);
+        $fkTag->setOnUpdate(ForeignKey::CASCADE);
+        $fkTag->addReference($tagFkColumn->getName(), $this->get('tag_table_id'));
+        $this->taggingTable->addForeignKey($fkTag);
     }
 
     /**
@@ -282,14 +285,11 @@ public function filterByTagName(\$tagName)
 ";
     }
 
-    protected function getTagTableName()
+    protected function get($attribute)
     {
-        return $this->replaceTokens($this->getParameter('tag_table'));
-    }
+        $attributeValue = $this->replaceTokens($this->getParameter($attribute));
 
-    protected function getTaggingTableName()
-    {
-        return $this->replaceTokens($this->getParameter('tagging_table'));
+        return !$this->isUpperCase() ? $attributeValue : strtoupper($attributeValue);
     }
 
     public function replaceTokens($string)
@@ -300,6 +300,11 @@ public function filterByTagName(\$tagName)
             '%TABLE%'   => $table->getName(),
             '%PHPNAME%' => $table->getPhpName(),
         ));
+    }
+
+    protected function isUpperCase()
+    {
+        return $this->getParameter('upperCase');
     }
 
     public function objectFilter(&$script)
