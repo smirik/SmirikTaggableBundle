@@ -16,7 +16,6 @@ class TaggableBehavior extends Behavior
         'tag_table_phpname' => 'Tag',
         'tag_table_id' => 'id',
         'tag_table_tag_name' => 'name',
-        'upperCase' => false,
     );
 
     protected $taggingTable,
@@ -287,9 +286,7 @@ public function filterByTagName(\$tagName)
 
     protected function get($attribute)
     {
-        $attributeValue = $this->replaceTokens($this->getParameter($attribute));
-
-        return !$this->isUpperCase() ? $attributeValue : strtoupper($attributeValue);
+        return $this->replaceTokens($this->getParameter($attribute));
     }
 
     public function replaceTokens($string)
@@ -300,11 +297,6 @@ public function filterByTagName(\$tagName)
             '%TABLE%'   => $table->getName(),
             '%PHPNAME%' => $table->getPhpName(),
         ));
-    }
-
-    protected function isUpperCase()
-    {
-        return $this->getParameter('upperCase');
     }
 
     public function objectFilter(&$script)
