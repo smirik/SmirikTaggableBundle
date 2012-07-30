@@ -2,7 +2,7 @@
 Propel\TaggableBehaviorBundle
 ---------------------------------
 
-A behavior and a widget for symfony 2.x and propel 1.6
+A behavior and a widget for symfony 2.1 and propel 1.6
 
 
 
@@ -83,7 +83,7 @@ Some examples:
     $tag->setName('propel');
     $article->addTag($tag);
     $article->save();
-    
+
     // or the addTags method, that directly accept strings, array or csv
     $article->addTags('symfony'); // a string with no comma is a single tag
     $article->addTags('linux, ubuntu'); // a string with comma is multiple tag
@@ -109,7 +109,7 @@ Some examples:
     // if you have a tag object (for example in a list of article tagged with...) propel has already done the dirty job
     $tag = TagQuery::create()->findOneByName('symfony');
     $articles = ArticleQuery::create()->filterByTag($tag)->find();
-    
+
 
 As widget in forms
 
@@ -117,10 +117,10 @@ As widget in forms
 
 	<?php
 	namespace Glorpen\GalleryBundle\Form\Type;
-	
+
 	use Symfony\Component\Form\AbstractType;
 	use Symfony\Component\Form\FormBuilder;
-	
+
 	class GalleryType extends AbstractType
 	{
 		public function getDefaultOptions(array $options)
@@ -129,15 +129,15 @@ As widget in forms
 				'data_class' => 'Glorpen\GalleryBundle\Model\Gallery',
 			);
 		}
-	
+
 		public function buildForm(FormBuilder $builder, array $options)
 		{
 			$builder->add('title', 'text', array('label'=>'Title'));
 			$builder->add('tags', 'tags', array('label' => 'Tags', 'defaultText'=>'add tag'));
 		}
-	
+
 		public function getName(){
 			return 'gallery';
 		}
-	
+
 	}
