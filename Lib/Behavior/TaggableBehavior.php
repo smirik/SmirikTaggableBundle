@@ -16,6 +16,8 @@ class TaggableBehavior extends Behavior
         'tag_table_phpname' => 'Tag',
         'tag_table_id' => 'id',
         'tag_table_tag_name' => 'name',
+        'i18n' => 'false',
+        'default_locale' => 'en',
     );
 
     protected $taggingTable,
@@ -73,6 +75,13 @@ class TaggableBehavior extends Behavior
                 'size'          => '60',
                 'primaryString' => 'true'
             ));
+        }
+
+        if ($this->getParameter('i18n')) {
+            $translationBehavior = new I18nBehavior();
+            $translationBehavior->addParameter(array('name' => 'i18n_columns', 'value' => $tagTableNameColumn));
+            $translationBehavior->addParameter(array('name' => 'default_locale', 'value' => $this->getParameter('i18n_default_locale')));
+            $this->tagTable->addBehavior($translationBehavior);
         }
     }
 
