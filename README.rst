@@ -2,7 +2,7 @@
 Propel\TaggableBehaviorBundle
 ---------------------------------
 
-A behavior and a widget for symfony 2.x and propel 1.6
+A behavior and a widget for symfony 2.0 and propel 1.6
 
 
 
