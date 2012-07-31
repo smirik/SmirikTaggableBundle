@@ -51,6 +51,8 @@ class TaggableBehavior extends Behavior
 
             if ($this->getParameter('i18n') && "true" == $this->getParameter('i18n')) {
                 $translationBehavior = new I18nBehavior();
+                $translationBehavior->addParameter(array('name' => 'i18n_columns', 'value' => $this->get('tag_table_tag_name')));
+
                 foreach ($this->getParameters() as $name => $value) {
                     if (substr($name, 0, 4) != 'i18n') {
                         continue;
