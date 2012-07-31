@@ -49,7 +49,7 @@ class TaggableBehavior extends Behavior
                 'namespace' => '\\'.$table->getNamespace(),
             ));
 
-            if ((bool) $this->getParameter('i18n')) {
+            if ($this->getParameter('i18n') && "true" == $this->getParameter('i18n')) {
                 $translationBehavior = new I18nBehavior();
                 foreach ($this->getParameters() as $name => $value) {
                     if (substr($name, 0, 4) != 'i18n') {
