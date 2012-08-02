@@ -1,5 +1,5 @@
 {
-    "name": "vbardales/propel-taggable-behaviour-bundle",
+    "name": "vbardales/propel-taggable-behavior-bundle",
     "description": "A behavior and a widget for symfony 2.x and propel 1.6",
     "keywords": ["propel", "behavior", "taggable"],
     "type": "symfony-bundle",
