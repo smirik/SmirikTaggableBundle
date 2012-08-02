@@ -15,7 +15,9 @@ class TaggableBehavior extends Behavior
         'tag_table' => 'taggable_tag',
         'tag_table_phpname' => 'Tag',
         'tag_table_id' => 'id',
+        'tag_table_id_phpName' => 'id',
         'tag_table_tag_name' => 'name',
+        'tag_table_tag_name_phpName' => 'name',
         'i18n' => 'false',
     );
 
@@ -77,6 +79,7 @@ class TaggableBehavior extends Behavior
         if (!$this->tagTable->hasColumn($tagTableIdColumn)) {
             $this->tagTable->addColumn(array(
                 'name'          => $tagTableIdColumn,
+                'phpName'       => $this->get('tag_table_id_phpname'),
                 'type'          => PropelTypes::INTEGER,
                 'primaryKey'    => 'true',
                 'autoIncrement' => 'true',
@@ -87,6 +90,7 @@ class TaggableBehavior extends Behavior
         if (!$this->tagTable->hasColumn($tagTableNameColumn)) {
             $this->tagTable->addColumn(array(
                 'name'          => $tagTableNameColumn,
+                'phpName'       => $this->get('tag_table_tag_name_phpname'),
                 'type'          => PropelTypes::VARCHAR,
                 'size'          => '60',
                 'primaryString' => 'true'
