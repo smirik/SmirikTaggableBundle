@@ -1,11 +1,13 @@
 <?php
 
+namespace Propel\TaggableBehaviorBundle\Lib\Behavior;
+
 /*
  *  matteosister <matteog@gmail.com>
  *  Just for fun...
  */
 
-class TaggableBehavior extends Behavior
+class TaggableBehavior extends \Behavior
 {
     protected $parameters = array(
         'tagging_table' => '%TABLE%_tagging',
@@ -33,6 +35,27 @@ class TaggableBehavior extends Behavior
         $this->createTaggingTable();
     }
 
+    protected function loadTagCustomBehaviors()
+    {
+        if ($this->getParameter('i18n') && "true" == $this->getParameter('i18n')) {
+            $translationBehavior = new \I18nBehavior();
+            $translationBehavior->setName('i18n');
+            $translationBehavior->addParameter(array('name' => 'i18n_columns', 'value' => $this->get('tag_table_tag_name')));
+
+            foreach ($this->getParameters() as $name => $value) {
+                if (substr($name, 0, 4) != 'i18n') {
+                    continue;
+                }
+
+                // the two possibles names are added due to i18n parameters name (possibly already prefixed by i18n)
+                $translationBehavior->addParameter(array('name' => substr($name, 5), 'value' => $value));
+                $translationBehavior->addParameter(array('name' => $name, 'value' => $value));
+            }
+
+            $this->tagTable->addBehavior($translationBehavior);
+        }
+    }
+
     protected function createTagTable()
     {
         $table = $this->getTable();
@@ -51,22 +74,7 @@ class TaggableBehavior extends Behavior
                 'namespace' => '\\'.$table->getNamespace(),
             ));
 
-            if ($this->getParameter('i18n') && "true" == $this->getParameter('i18n')) {
-                $translationBehavior = new I18nBehavior();
-                $translationBehavior->addParameter(array('name' => 'i18n_columns', 'value' => $this->get('tag_table_tag_name')));
-
-                foreach ($this->getParameters() as $name => $value) {
-                    if (substr($name, 0, 4) != 'i18n') {
-                        continue;
-                    }
-
-                    // the two possibles names are added due to i18n parameters name (possibly already prefixed by i18n)
-                    $translationBehavior->addParameter(array('name' => substr($name, 5), 'value' => $value));
-                    $translationBehavior->addParameter(array('name' => $name, 'value' => $value));
-                }
-
-                $this->tagTable->addBehavior($translationBehavior);
-            }
+            $this->loadTagCustomBehaviors();
 
             // every behavior adding a table should re-execute database behaviors
             // see bug 2188 http://www.propelorm.org/changeset/2188
@@ -80,7 +88,7 @@ class TaggableBehavior extends Behavior
             $this->tagTable->addColumn(array(
                 'name'          => $tagTableIdColumn,
                 'phpName'       => $this->get('tag_table_id_phpname'),
-                'type'          => PropelTypes::INTEGER,
+                'type'          => \PropelTypes::INTEGER,
                 'primaryKey'    => 'true',
                 'autoIncrement' => 'true',
             ));
@@ -91,7 +99,7 @@ class TaggableBehavior extends Behavior
             $this->tagTable->addColumn(array(
                 'name'          => $tagTableNameColumn,
                 'phpName'       => $this->get('tag_table_tag_name_phpname'),
-                'type'          => PropelTypes::VARCHAR,
+                'type'          => \PropelTypes::VARCHAR,
                 'size'          => '60',
                 'primaryString' => 'true'
             ));
@@ -105,7 +113,7 @@ class TaggableBehavior extends Behavior
 
         $pks = $this->getTable()->getPrimaryKey();
         if (count($pks) > 1) {
-            throw new EngineException('The Taggable behavior does not support tables with composite primary keys');
+            throw new \EngineException('The Taggable behavior does not support tables with composite primary keys');
         }
         $pk = array_shift($pks);
 
@@ -135,7 +143,7 @@ class TaggableBehavior extends Behavior
         } else {
             $objFkColumn = $this->taggingTable->addColumn(array(
                 'name'          => $taggingTableTaggingId,
-                'type'          => PropelTypes::INTEGER,
+                'type'          => \PropelTypes::INTEGER,
                 'primaryKey'    => 'true'
             ));
         }
@@ -146,7 +154,7 @@ class TaggableBehavior extends Behavior
         } else {
             $tagFkColumn = $this->taggingTable->addColumn(array(
                 'name'          => $taggingTableTagId,
-                'type'          => PropelTypes::INTEGER,
+                'type'          => \PropelTypes::INTEGER,
                 'primaryKey'    => 'true'
             ));
         }
@@ -154,20 +162,20 @@ class TaggableBehavior extends Behavior
         $this->taggingTable->setIsCrossRef(true);
 
         // Add FK between table and taggingTable
-        $fkObj = new ForeignKey();
+        $fkObj = new \ForeignKey();
         $fkObj->setForeignTableCommonName($this->getTable()->getCommonName());
         $fkObj->setForeignSchemaName($this->getTable()->getSchema());
-        $fkObj->setOnDelete(ForeignKey::CASCADE);
-        $fkObj->setOnUpdate(ForeignKey::CASCADE);
+        $fkObj->setOnDelete(\ForeignKey::CASCADE);
+        $fkObj->setOnUpdate(\ForeignKey::CASCADE);
         $fkObj->addReference($objFkColumn->getName(), $pk->getName());
         $this->taggingTable->addForeignKey($fkObj);
 
         // Add FK between taggingTable and tagTable
-        $fkTag = new ForeignKey();
+        $fkTag = new \ForeignKey();
         $fkTag->setForeignTableCommonName($this->tagTable->getCommonName());
         $fkTag->setForeignSchemaName($this->tagTable->getSchema());
-        $fkTag->setOnDelete(ForeignKey::CASCADE);
-        $fkTag->setOnUpdate(ForeignKey::CASCADE);
+        $fkTag->setOnDelete(\ForeignKey::CASCADE);
+        $fkTag->setOnUpdate(\ForeignKey::CASCADE);
         $fkTag->addReference($tagFkColumn->getName(), $this->get('tag_table_id'));
         $this->taggingTable->addForeignKey($fkTag);
     }
@@ -234,7 +242,7 @@ public function addTags(\$tags, PropelPDO \$con = null)
 
     private function addRemoveTagMethod(&$script)
     {
-        $table = new Table();
+        $table = new \Table();
         $table = $this->getTable();
 
         $script .= "
