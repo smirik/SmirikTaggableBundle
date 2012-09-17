@@ -1,0 +1,5 @@
+services:
+  propel.taggable_behavior.form.type.tags:
+    class: Smirik\TaggableBundle\Form\Type\TagsType
+    tags:
+      -  { name: form.type, alias: tags }

@@ -1,0 +1,6 @@
+propel:
+  build_properties:
+    propel.behavior.taggable.class: 'vendor.smirik.src.propel-taggable-behavior.src.TaggableBehavior'
+# twig:
+#   form:
+#     resources: [ 'TaggableBehaviorBundle:Form:fields.html.twig' ]

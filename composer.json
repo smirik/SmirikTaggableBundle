@@ -1,10 +1,9 @@
 {
-    "name": "vbardales/propel-taggable-behavior-bundle",
-    "replace": {"vbardales/propel-taggable-behaviour-bundle": "dev-master"},
-    "description": "A behavior and a widget for symfony 2.x and propel 1.6",
+    "name": "smirik/taggable-bundle",
+    "description": "Taggable bundle for symfony based on taggable behavior",
     "keywords": ["propel", "behavior", "taggable"],
     "type": "symfony-bundle",
-    "homepage": "https://github.com/vbardales/PropelTaggableBehaviorBundle",
+    "homepage": "http://4xxi.com",
     "authors": [
         {
             "name": "Arkadiusz Dzięgiel (glorpen)",
@@ -20,13 +19,18 @@
         {
             "name": "Symfony Community",
             "homepage": "http://github.com/vbardales/PropelTaggableBehaviorBundle/contributors"
+        },
+        {
+            "name": "Evgeny Smirnov",
+            "email": "smirik@gmail.com"
         }
     ],
     "require": {
-        "symfony/symfony": "2.1.*"
+        "symfony/symfony": "2.1.*",
+        "smirik/propel-taggable-behavior": "*"
     },
-    "target-dir": "Propel/TaggableBehaviorBundle",
+    "target-dir": "Smirik/TaggableBundle",
     "autoload": {
-        "psr-0": { "Propel\\TaggableBehaviorBundle": "" }
+        "psr-0": { "Smirik\\TaggableBundle": "" }
     }
 }
