@@ -9,9 +9,13 @@ A behavior and a widget for symfony 2.1 and propel 1.6
 How to install
 --------------
 
-- add this plugin as a git submodule in your project. From your project root:
+- add this bundle to the composer.json
 
-    git submodule add https://github.com/vbardales/MultipleAppKernelBundle.git
+  {
+    "require": {
+      "smirik/taggable-bundle": "*"
+    }
+  }
 
 - enable the plugin in your **AppKernel** class
 
@@ -27,7 +31,7 @@ How to install
         {
             $bundles = array(
             	...
-            	new Propel\TaggableBehaviorBundle\PropelTaggableBehaviorBundle(),
+            	new Smirik\TaggableBundle\SmirikTaggableBundle(),
             	...
             );
         }
@@ -50,65 +54,7 @@ How to install
 
 ::
 
-    app/console propel:build-all
-
-- publish assets
-
-::
-
-    php symfony plugin:publish-assets
-
-
-Classes And Tables generated
-----------------------------
-
-The behavior creates a **taggable_tag** table that is populated with tags
-Then it creates a **%table%_tagging table** for every object in your model with the taggable behavior.
-This middle table is marked as **isCrossRef**, with two foreign keys, one on the object and one on the tag table.
-This integrates the tagging mechanism completely inside propel
-
-How to use
-----------
-
-Some examples:
-
-::
-
-    <?php
-    $article = new Article();
-
-
-    // there are two ways to add tags. The propel way:
-    $tag = new Tag();
-    $tag->setName('propel');
-    $article->addTag($tag);
-    $article->save();
-
-    // or the addTags method, that directly accept strings, array or csv
-    $article->addTags('symfony'); // a string with no comma is a single tag
-    $article->addTags('linux, ubuntu'); // a string with comma is multiple tag
-    $article->addTags('symfony'); // if the object is already tagged nothing happens
-    $article->addTags(array('linus', 'torvalds')); // list of tags as an array
-
-
-    // remove tags
-    $article->removeTags('symfony');
-    $article->removeTags('linux, ubuntu');
-    $article->removeTags(array('linus', 'torvalds'));
-
-    // retrieve tags
-    $article->getTags() // PropelCollection of Tag object
-
-
-    // Query object
-    $articles = ArticleQuery::create()->filterByTagName('propel')->find();
-
-    // you could also use the propel generated method. filterByTagName is just a shortcut of
-    $articles = ArticleQuery::create()->useArticleTaggingQuery()->useTagQuery()->filterByName('propel')->endUse()->endUse();
-
-    // if you have a tag object (for example in a list of article tagged with...) propel has already done the dirty job
-    $tag = TagQuery::create()->findOneByName('symfony');
-    $articles = ArticleQuery::create()->filterByTag($tag)->find();
+    php app/console propel:build
 
 
 As widget in forms
@@ -133,7 +79,7 @@ As widget in forms
 		public function buildForm(FormBuilder $builder, array $options)
 		{
 			$builder->add('title', 'text', array('label'=>'Title'));
-			$builder->add('tags', 'tags', array('label' => 'Tags', 'defaultText'=>'add tag'));
+			$builder->add('tags', 'tags', array('label' => 'Tags', 'defaultText'=>'add tag', 'class' => 'YOUR_TAG_CLASS_WITH_NAMESPACE'));
 		}
 
 		public function getName(){

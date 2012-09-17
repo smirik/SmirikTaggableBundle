@@ -23,6 +23,10 @@
         {
             "name": "Evgeny Smirnov",
             "email": "smirik@gmail.com"
+        },
+        {
+            "name": "Alexander Beshkenadze",
+            "email": "beshkenadze@gmail.com"
         }
     ],
     "require": {
