@@ -68,7 +68,7 @@ class TagTransformer implements DataTransformerInterface {
 				{
 					$cls = $this->found_class;
 					$o = new $cls();
-					$o->setName($tag);
+					$o->setName(trim($tag));
 					$ret[] = $o;
 				}
 			}
