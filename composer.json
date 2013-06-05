@@ -1,5 +1,5 @@
 {
-    "name": "smirik/taggable-bundle",
+    "name": "karser/smirik-taggable-bundle",
     "description": "Taggable bundle for symfony based on taggable behavior",
     "keywords": ["propel", "behavior", "taggable"],
     "type": "symfony-bundle",
