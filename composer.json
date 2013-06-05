@@ -30,7 +30,7 @@
         }
     ],
     "require": {
-        "symfony/symfony": "2.1.*",
+        "symfony/symfony": ">=2.1,<3.0",
         "smirik/propel-taggable-behavior": "*"
     },
     "target-dir": "Smirik/TaggableBundle",
